@@ -6,79 +6,107 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-
-  <script>
-
-
-    // a rock paper scissors console.log game
-    function game(){
-        
-        let randnum;
-        let computerHand;
-        let playerHand;
-        let message;
-        let playerPoints = 0;
-        let computerPoints = 0;
-        let play = true;
-        
-        while (play === true){
-            getplayerHand();
-            console.log(`Player is: ${playerHand}`);
-            getComputerHand();
-            console.log(`Computer is: ${computerHand}`);
-            getRoundWinner(computerHand, playerHand);
-            console.log(message);
-            console.log(`player has ${playerPoints} points - computer has ${computerPoints} points`)
-            if (computerPoints === 5 || playerPoints === 5){
-                console.log("it is over");
-                play = false;
-            }
+    <style>
+        #block{
+            background-color: blue;
+            visibility: visible;
+            height: 200px;
+            width: 660px;
+            z-index: 1;
         }
-
-        function computerScores(){
-            computerPoints = computerPoints + 1;
-            return(computerPoints)
-        }
-
-        function playerScores(){
-            playerPoints = playerPoints + 1;
-            return(playerPoints)
-        }
-
-        function getComputerHand(){
-            randnum = Math.floor((Math.random() * 3) + 1);
-            (randnum === 1) ? (computerHand = "rock"):
-            (randnum === 2) ? (computerHand = "paper"):
-            (computerHand = "scissors");
-            return(computerHand);
-        }
-
-        function getplayerHand(){
-            playerHand = prompt("Rock paper or scissors?");
-            playerHand = playerHand.toLowerCase();
-            return playerHand;
+        #buttons3Div{
+            visibility: hidden;
         }
         
-        function getRoundWinner (){
-            if (computerHand === "rock" && playerHand === "rock" || computerHand === "paper" && playerHand === "paper" || computerHand === "scissors" && playerHand === "scissors"){
-                message = "it is a draw";
-                return(message);
-            } else if (computerHand === "rock" && playerHand === "scissors" || computerHand === "paper" && playerHand === "rock" || computerHand === "scissors" && playerHand === "paper"){
-                message = "Computer Wins round";
-                computerScores();
-                return(message);
-            } else if (computerHand === "rock" && playerHand === "paper" || computerHand === "paper" && playerHand === "scissors" || computerHand === "scissors" && playerHand === "rock"){
-                message = "Player Wins round";
-                playerScores();
-                return(message);
-            }
-        }   // end of game() function    
+        #yesOrNoDiv{
+            visibility: visible;
+            margin-left: 200px;
+        }
 
-        console.log(computerPoints);
-        console.log(playerPoints);
-    }   
-    game()
+        #scoreBoard{
+            display: flex;
+            flex-direction: row;
+            margin-top: 50px;
+            margin-left: 250px;;
+            gap: 50px;
+            visibility: hidden;
+        }
+
+
+    </style>
+
+    <div id="block">
+        <div id="buttons3Div">  
+            <button class="button3" value="rock"><img src="rock.jpg" alt="rock" height="200px" width="200px" value="rock"></button>
+            <button class="button3" value="paper"><img src="paper.jpg" alt="paper" height="200px" width="200px" value="2"/></button>
+            <button class="button3" value ="scissors"><img src="scissors.jpg" alt="scissors" height="200px" width="200px" value="3"/></button>      
+        </div>
+
+        <div id="yesOrNoDiv">Do you want to play a game
+            <button class="yesOrNoButtons" value="yes">Yes</button>
+            <button class="yesOrNoButtons" value="no">No</button>
+        </div>
+    </div>
+    <div id = "scoreBoard">
+        <div id="playerS">
+            player
+        </div>
+        <div id="computerS">
+            computer
+        </div>
+    </div>
     
-  </script>
+  <script>
+    //block.classList.add("playing"); will be the css function call to add the before playing block
+    const block = document.getElementById("block");
+    const buttons3Div = document.getElementById("buttons3Div")
+    const yesOrNoDiv = document.getElementById("yesOrNoDiv");
+    const yesOrNoButtons = document.getElementsByClassName("yesOrNoButtons");
+    const buttons3 = document.getElementsByClassName("button3");
+    const scoreBoardDiv = document.getElementById("scoreBoard");
+
+    let playersChoice;
+    let buttons3choice;
+
+    for (let i = 0; i < yesOrNoButtons.length; i++){
+        yesOrNoButtons[i].addEventListener("click", function(){
+            if (i === 0){
+                block.style.visibility = "hidden";
+                buttons3Div.style.visibility = "visible";
+                yesOrNoDiv.style.visibility = "hidden";
+                scoreBoardDiv.style.visibility = "visible";
+                playerChoose()
+            }
+            if (i === 1){
+                console.log("no") //must do something if they select no
+            }
+        });
+    }
+
+    function playerChoose(){
+        for (let i = 0; i < buttons3.length; i++){
+            buttons3[i].addEventListener("click", function(){
+                playersChoice = (this).value;
+                if (playersChoice === "rock"){
+                    alert("rock")
+                } else if (playersChoice === "paper"){
+                    alert("paper")
+                } else if (playersChoice === "scissors"){
+                    alert("scissors")
+                }
+                
+            })
+        }
+    }    
+
+
+
+
+
+
+
+
+
+</script>
 </body>
 </html>
