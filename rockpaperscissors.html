@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rock Paper Scissors</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+  <script>
+
+
+    // a rock paper scissors console.log game
+    function game(){
+        
+        let randnum;
+        let computerHand;
+        let playerHand;
+        let message;
+        let playerPoints = 0;
+        let computerPoints = 0;
+        let play = true;
+        
+        while (play === true){
+            getplayerHand();
+            console.log(`Player is: ${playerHand}`);
+            getComputerHand();
+            console.log(`Computer is: ${computerHand}`);
+            getRoundWinner(computerHand, playerHand);
+            console.log(message);
+            console.log(`player has ${playerPoints} points - computer has ${computerPoints} points`)
+            if (computerPoints === 5 || playerPoints === 5){
+                console.log("it is over");
+                play = false;
+            }
+        }
+
+        function computerScores(){
+            computerPoints = computerPoints + 1;
+            return(computerPoints)
+        }
+
+        function playerScores(){
+            playerPoints = playerPoints + 1;
+            return(playerPoints)
+        }
+
+        function getComputerHand(){
+            randnum = Math.floor((Math.random() * 3) + 1);
+            (randnum === 1) ? (computerHand = "rock"):
+            (randnum === 2) ? (computerHand = "paper"):
+            (computerHand = "scissors");
+            return(computerHand);
+        }
+
+        function getplayerHand(){
+            playerHand = prompt("Rock paper or scissors?");
+            playerHand = playerHand.toLowerCase();
+            return playerHand;
+        }
+        
+        function getRoundWinner (){
+            if (computerHand === "rock" && playerHand === "rock" || computerHand === "paper" && playerHand === "paper" || computerHand === "scissors" && playerHand === "scissors"){
+                message = "it is a draw";
+                return(message);
+            } else if (computerHand === "rock" && playerHand === "scissors" || computerHand === "paper" && playerHand === "rock" || computerHand === "scissors" && playerHand === "paper"){
+                message = "Computer Wins round";
+                computerScores();
+                return(message);
+            } else if (computerHand === "rock" && playerHand === "paper" || computerHand === "paper" && playerHand === "scissors" || computerHand === "scissors" && playerHand === "rock"){
+                message = "Player Wins round";
+                playerScores();
+                return(message);
+            }
+        }   // end of game() function    
+
+        console.log(computerPoints);
+        console.log(playerPoints);
+    }   
+    game()
+    
+  </script>
+</body>
+</html>
