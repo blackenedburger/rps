@@ -32,7 +32,23 @@
             visibility: hidden;
         }
 
+        #finalResult{
+            display: flex;
+            flex-direction: column;
+        }
 
+        #movesResults{
+            display: flex;
+            flex-direction: row;
+        }
+
+        #playersResult{
+            visibility: hidden;
+        }
+
+        #computersResult{
+            visibility: hidden;
+        }
     </style>
 
     <div id="block">
@@ -48,25 +64,34 @@
         </div>
     </div>
     <div id = "scoreBoard">
-        <div id="playerS">
-            player
+        <div id="playerScore">
+            player's score
         </div>
-        <div id="computerS">
-            computer
+        <div id="computerScore">
+            computer's score
         </div>
+    </div>
+    <div id="finalResult">
+        Round Result
+        <div id="movesResult"></div>
+            <div class="results" id="playersResult"></div>
+            <div class="results" id="computersResult"></div>
+        <div id="roundResult"></div>
     </div>
     
   <script>
-    //block.classList.add("playing"); will be the css function call to add the before playing block
+
     const block = document.getElementById("block");
     const buttons3Div = document.getElementById("buttons3Div")
     const yesOrNoDiv = document.getElementById("yesOrNoDiv");
     const yesOrNoButtons = document.getElementsByClassName("yesOrNoButtons");
     const buttons3 = document.getElementsByClassName("button3");
     const scoreBoardDiv = document.getElementById("scoreBoard");
+    const playerScore = document.getElementById("playerScore");
+    const computerScore = document.getElementById("computerScore");
+    const playersResult = document.getElementById("playersResult");
+    const computersResult = document.getElementById("computersResult");
 
-    let playersChoice;
-    let buttons3choice;
 
     for (let i = 0; i < yesOrNoButtons.length; i++){
         yesOrNoButtons[i].addEventListener("click", function(){
@@ -75,7 +100,7 @@
                 buttons3Div.style.visibility = "visible";
                 yesOrNoDiv.style.visibility = "hidden";
                 scoreBoardDiv.style.visibility = "visible";
-                playerChoose()
+                game()
             }
             if (i === 1){
                 console.log("no") //must do something if they select no
@@ -83,30 +108,92 @@
         });
     }
 
-    function playerChoose(){
-        for (let i = 0; i < buttons3.length; i++){
-            buttons3[i].addEventListener("click", function(){
-                playersChoice = (this).value;
-                if (playersChoice === "rock"){
-                    alert("rock")
-                } else if (playersChoice === "paper"){
-                    alert("paper")
-                } else if (playersChoice === "scissors"){
-                    alert("scissors")
-                }
-                
-            })
+    function game(){
+        let randnum;
+        let message;
+        let playerPoints = 0;
+        let computerPoints = 0;
+        let playersChoice = "";
+        let computerChoice = "";
+        let finalResult = document.getElementById("finalResult");
+        //let play = true;
+        
+        playersChoice = getPlayerChoice();
+        getComputerChoice();       
+        getRoundWinner(computerChoice, playersChoice);
+        
+        /*
+        console.log(`player has ${playerPoints} points - computer has ${computerPoints} points`)
+        if (computerPoints === 5 || playerPoints === 5){
+            console.log("it is over");
+            play = false; */
+        
+    
+
+        function getPlayerChoice(){
+            for (let i = 0; i < buttons3.length; i++){
+                buttons3[i].addEventListener("click", function(){
+                    playersChoice = (this).value;
+                    if (playersChoice === "rock"){
+                        playerChoosesRock()
+                    } else if (playersChoice === "paper"){
+                        playerChoosesPaper()
+                    } else if(playersChoice == "scissors"){
+                        playerChoosesScissors()
+                    }
+                })
+            }
+        }    
+
+        function getComputerChoice(){
+                randnum = Math.floor((Math.random() * 3) + 1);
+                (randnum === 1) ? (computerChoice = "rock"):
+                (randnum === 2) ? (computerChoice = "paper"):
+                (computerChoice = "scissors");
+                return(computerChoice);
         }
-    }    
 
+        function playerChoosesRock(){
+            playersChoice = "rock";
+            showResults()
+        }
 
+        function playerChoosesPaper(){
+            playersChoice = "paper";
+            showResults()
+        }
 
+        function playerChoosesScissors(){
+            playersChoice = "scissors";
+            showResults()
+        }
 
+        function showResults(){
+            playersResult.textContent = (playersChoice);
+            computersResult.textContent = (computerChoice);
+            playersResult.style.visibility = "visible";
+            computersResult.style.visibility = "visible";
+        }
 
+        function getRoundWinner (){
+            if (computerChoice === "rock" && playersChoice === "rock" || computerChoice === "paper" && playersChoice === "paper" || computerChoice === "scissors" && playersChoice === "scissors"){
+                message = "it is a draw";
+                //finalResult.textContent = message;
+            } else if (computerChoice === "rock" && playersChoice === "scissors" || computerChoice === "paper" && playersChoice === "rock" || computerChoice === "scissors" && playersChoice === "paper"){
+                message = "Computer Wins round";
+                //computerScores();
+                //finalResult.textContent = message;
+            } else if (computerChoice === "rock" && playersChoice === "paper" || computerChoice === "paper" && playersChoice === "scissors" || computerChoice === "scissors" && playersChoice === "rock"){
+                message = "Player Wins round";
+                //playerScores();
+                //finalResult.textContent = message;
+            }
+            console.log(message)
+        }    
 
+        
 
-
-
+}
 </script>
 </body>
 </html>
