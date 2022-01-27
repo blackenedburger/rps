@@ -33,8 +33,11 @@
         }
         
         #yesOrNoDiv{
+            display: flex;
+            flex-direction: column;
             visibility: visible;
-            margin-left: 200px;
+            justify-content: center;
+            align-items: center;
         }
 
         #scoreBoard{
@@ -66,7 +69,7 @@
             flex-direction: column;
             visibility: visible;
             margin-top: 50px;
-            width: 250px;
+            width: 275px;
             height: 100px;
             color: blueviolet;
             justify-content: center;
@@ -93,7 +96,7 @@
             visibility: visible;
             flex-direction: column;
             margin-top: 50px;
-            width: 250px;
+            width: 275px;
             height: 100px;
             color: rgb(52, 150, 101);
             justify-content: center;
@@ -133,6 +136,8 @@
         #playersScore{
             text-align: center;
         }
+
+
     </style>
     <div id="container">
 
@@ -143,9 +148,14 @@
                 <button class="button3" value ="scissors"><img src="scissors.jpg" alt="scissors" height="200px" width="200px" value="3"/></button>      
             </div>
 
-            <div id="yesOrNoDiv">Do you want to play a game
-                <button class="yesOrNoButtons" value="yes">Yes</button>
-                <button class="yesOrNoButtons" value="no">No</button>
+            <div id="yesOrNoDiv">
+                <div id="question">
+                    <h4>Do you want to play a game?</h4>
+                </div>
+                <div id="yesOrNoDivButtonsDiv">
+                    <button class="yesOrNoButtons" value="yes">Yes</button>
+                    <button class="yesOrNoButtons" value="no">No</button>
+                </div>
             </div>
         </div>
         <div id = "scoreBoard">
