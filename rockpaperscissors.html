@@ -137,6 +137,11 @@
             text-align: center;
         }
 
+        #playAgainDiv{
+            display: flex;
+            flex-direction: row;
+            visibility: hidden;
+        }
 
     </style>
     <div id="container">
@@ -179,7 +184,13 @@
             <div id="computersResult">
             </div>
         </div>
-        <div id="finalMessage"></div>
+        <div id="finalMessage">
+            
+        </div>
+        <div id="playAgainDiv">
+            <button id="playAgainButton" onmousedown="game()">Play Again?</button>
+        </div>
+        
     </div>
 
 
@@ -189,38 +200,36 @@
 
 
     <script>
+
         // these are for the html divs mainly to change the css style from hidden to visible
         const block = document.getElementById("block");
-        const buttons3Div = document.getElementById("buttons3Div")
+        const buttons3Div = document.getElementById("buttons3Div");
         const yesOrNoDiv = document.getElementById("yesOrNoDiv");
         const yesOrNoButtons = document.getElementsByClassName("yesOrNoButtons");
         const buttons3 = document.getElementsByClassName("button3");
         const scoreBoardDiv = document.getElementById("scoreBoard");
         const playersResult = document.getElementById("playersResult");
-        
+        const playAgainButton = document.getElementById("playAgainButton");
         const computersResult = document.getElementById("computersResult");
         const roundResult = document.getElementById("roundResult");
         
         let playersScore = document.getElementById("playersScore");
         let computersScore = document.getElementById("computersScore");
         let finalMessage = document.getElementById("finalMessage");
-    
+        
+        
+
+
         //  if yes to play is clicked it removes the blue block and shows game board 
         for (let i = 0; i < yesOrNoButtons.length; i++){
             yesOrNoButtons[i].addEventListener("click", function(){
                 if (i === 0){
-                    block.style.visibility = "hidden";
-                    buttons3Div.style.visibility = "visible";
-                    yesOrNoDiv.style.visibility = "hidden";
-                    scoreBoardDiv.style.visibility = "visible";
-
-                    playersScore.textContent = (0);
-                    computersScore.textContent = (0);
                     game()
                 }
             });
         }
-    
+        
+
         function game(){
             let randnum;
             let message;
@@ -229,12 +238,22 @@
             let playersChoice;
             let computerChoice;
             let bottomBox = document.getElementById("bottomBox");
-            playersChoice = getPlayerChoice();  
-            getRoundWinner(computerChoice, playersChoice);
-
             
-        
-    
+            yesOrNoDiv.style.visibility = "hidden";
+            block.style.visibility = "hidden";
+            buttons3Div.style.visibility = "visible";
+            yesOrNoDiv.style.visibility = "hidden";
+            scoreBoardDiv.style.visibility = "visible";
+            
+
+            playersScore.textContent = playerPoints;
+            computersScore.textContent = computerPoints;
+
+            playersChoice = getPlayerChoice();  
+            getRoundWinner(computerChoice, playersChoice);  
+                 
+            playAgainButton.addEventListener("click", game);
+
             function getPlayerChoice(){
                 for (let i = 0; i < buttons3.length; i++){
                     buttons3[i].addEventListener("click", function(){
@@ -296,19 +315,32 @@
                     playerPoints = (playerPoints + 1);
                     playersScore.textContent = playerPoints;
                 }
-                if (computerPoints === 5){
+                if (computerPoints === 2){
                     getComputerWinsMessage();
-                }  
-                if (playerPoints === 5){
-                    getPlayerWinsMessage();
+                    yesOrNoDiv.style.visibility = "visible";
+                    playAgainButton.style.visibility = "visible";
                     reset();
-                }
-            }    
+                    //playAgainButton.addEventListener("click", function(){
+                      //  if (i === 0){
+                        //    reset();
+                          //  game()
+                }//})  
+                if (playerPoints === 2){
+                    getPlayerWinsMessage();
+                    
+                    playAgainButton.style.visibility = "visible";
+                    reset();
+                    //playAgainButton.addEventListener("click", function(){
+                        //if (i === 0){
+                            //reset();
+                            //game();
+                }//});
+                    
     
             function getComputerWinsMessage(){
-                reset();
+                
                 finalMessage.textContent = ("Computer Wins");
-
+                
             }
 
             function getPlayerWinsMessage(){
@@ -320,6 +352,11 @@
                 block.style.visibility = "visible";
                 buttons3Div.style.visibility = "hidden";
                 scoreBoardDiv.style.visibility = "hidden";
+                playerPoints = 0;
+                computerPoints = 0;
+                playersScore.textContent = playerPoints;
+                computersScore.textContent = computerPoints;
+            }
             }
     }
     </script>
