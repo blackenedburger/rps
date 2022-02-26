@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rock Paper Scissors</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+</head>
+<body>
+    <style>
+        body,html {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        #container{
+            display: block;
+            padding: 40px;
+        }
+
+        #block{
+            background-color: white;
+            visibility: visible;
+            height: 200px;
+            width: 660px;
+            z-index: 1;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        #buttons3Div{
+            visibility: hidden;
+        }
+        
+        #yesOrNoDiv{
+            display: flex;
+            flex-direction: column;
+            visibility: visible;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #scoreBoard{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 50px;
+            visibility: hidden;
+        }
+
+        .score{
+            font-size: larger;
+        }
+        
+        #resultsAreaDiv{
+            display:flex;
+            flex-direction: row;
+            gap: 50px;;
+            justify-content: center;
+        }
+        #resultsArea{
+            display: flex;
+            flex-direction: row;
+        }
+
+        #playersResult{
+            display: flex;
+            flex-direction: column;
+            visibility: visible;
+            margin-top: 50px;
+            width: 275px;
+            height: 100px;
+            color: blueviolet;
+            justify-content: center;
+            align-content: center;
+            text-align: center;
+            font-family: "Comic Sans MS", Times, serif;
+            font-size: large;
+        }
+
+        #bottomBox{
+            display: flex;
+            flex-direction: column;
+            margin-top: 100px;
+            width: 200px;
+            height: 100px;
+            color: rgb(96, 117, 235);
+            align-content: center;
+            text-align: center;
+            font-family: "Comic Sans MS", Times, serif;
+        }
+
+        #computersResult{
+            display: flex;
+            visibility: visible;
+            flex-direction: column;
+            margin-top: 50px;
+            width: 275px;
+            height: 100px;
+            color: rgb(52, 150, 101);
+            justify-content: center;
+            align-content: center;
+            text-align: center;
+            font-family: "Comic Sans MS", Times, serif;
+            font-size: large;
+        }
+
+        #roundResult{
+            margin-top: 25px;;
+            font-family: "Comic Sans MS", Times, serif;
+        }
+
+        h3{
+            margin-top: -30px;
+        }
+
+        #finalMessage{
+            display: flex;
+            flex-direction: row;
+            vertical-align: auto;
+            justify-content: center;
+            align-content: center;
+            background-color: white;
+            margin-top: -300px;;
+            font-family: "Comic Sans MS", Times, serif;
+            font-size: 40pt;
+            color:rgb(240, 164, 51);
+            width: 200px;
+            height: 100px;
+            margin-left:auto;
+            margin-right: auto;
+        }
+
+        #computersScore, 
+        #playersScore{
+            text-align: center;
+        }
+
+        #playAgainDiv{
+            display: flex;
+            flex-direction: row;
+            visibility: hidden;
+        }
+
+    </style>
+    <div id="container">
+
+        <div id="block">
+            <div id="buttons3Div">  
+                <button class="button3" value="rock"><img src="rock.jpg" alt="rock" height="200px" width="200px" value="rock"></button>
+                <button class="button3" value="paper"><img src="paper.jpg" alt="paper" height="200px" width="200px" value="2"/></button>
+                <button class="button3" value ="scissors"><img src="scissors.jpg" alt="scissors" height="200px" width="200px" value="3"/></button>      
+            </div>
+
+            <div id="yesOrNoDiv">
+                <div id="question">
+                    <h4>Do you want to play a game?</h4>
+                </div>
+                <div id="yesOrNoDivButtonsDiv">
+                    <button class="yesOrNoButtons" value="yes">Yes</button>
+                    <button class="yesOrNoButtons" value="no">No</button>
+                </div>
+            </div>
+        </div>
+        <div id = "scoreBoard">
+            <div class="scoreBoardPlayer">
+                player's score
+                <div id="playersScore" class="score"></div>
+            </div>
+            <div class="scoreBoardComputer">
+                computer's score
+                <div id="computersScore" class="score"></div>
+            </div>
+        </div>
+        <div id="resultsAreaDiv">
+            <div id="playersResult">
+            </div>
+            <div id="bottomBox">
+                <div id="resultsArea">  
+                </div>
+                <div id="roundResult"></div>
+            </div>
+            <div id="computersResult">
+            </div>
+        </div>
+        <div id="finalMessage">
+            
+        </div>
+        <div id="playAgainDiv">
+            <button id="playAgainButton" onmousedown="game()">Play Again?</button>
+        </div>
+        
+    </div>
+
+
+
+
+
+
+
+    <script>
+
+        // these are for the html divs mainly to change the css style from hidden to visible
+        const block = document.getElementById("block");
+        const buttons3Div = document.getElementById("buttons3Div");
+        const yesOrNoDiv = document.getElementById("yesOrNoDiv");
+        const yesOrNoButtons = document.getElementsByClassName("yesOrNoButtons");
+        const buttons3 = document.getElementsByClassName("button3");
+        const scoreBoardDiv = document.getElementById("scoreBoard");
+        const playersResult = document.getElementById("playersResult");
+        const playAgainButton = document.getElementById("playAgainButton");
+        const computersResult = document.getElementById("computersResult");
+        const roundResult = document.getElementById("roundResult");
+        
+        let playersScore = document.getElementById("playersScore");
+        let computersScore = document.getElementById("computersScore");
+        let finalMessage = document.getElementById("finalMessage");
+        
+        
+
+
+        //  if yes to play is clicked it removes the blue block and shows game board 
+        for (let i = 0; i < yesOrNoButtons.length; i++){
+            yesOrNoButtons[i].addEventListener("click", function(){
+                if (i === 0){
+                    game()
+                }
+            });
+        }
+        
+
+        function game(){
+            let randnum;
+            let message;
+            let playerPoints = 0;
+            let computerPoints = 0;
+            let playersChoice;
+            let computerChoice;
+            let bottomBox = document.getElementById("bottomBox");
+            
+            yesOrNoDiv.style.visibility = "hidden";
+            block.style.visibility = "hidden";
+            buttons3Div.style.visibility = "visible";
+            yesOrNoDiv.style.visibility = "hidden";
+            scoreBoardDiv.style.visibility = "visible";
+            
+
+            playersScore.textContent = playerPoints;
+            computersScore.textContent = computerPoints;
+
+            playersChoice = getPlayerChoice();  
+            getRoundWinner(computerChoice, playersChoice);  
+                 
+            playAgainButton.addEventListener("click", game);
+
+            function getPlayerChoice(){
+                for (let i = 0; i < buttons3.length; i++){
+                    buttons3[i].addEventListener("click", function(){
+                        playersChoice = (this).value;
+                        getComputerChoice();    
+                        if (playersChoice === "rock"){
+                            playerChoosesRock()
+                        } else if (playersChoice === "paper"){
+                            playerChoosesPaper()
+                        } else if(playersChoice == "scissors"){
+                            playerChoosesScissors()
+                        }
+                    })
+                }
+            }    
+    
+            function getComputerChoice(){
+                    randnum = Math.floor((Math.random() * 3) + 1);
+                    (randnum === 1) ? (computerChoice = "rock"):
+                    (randnum === 2) ? (computerChoice = "paper"):
+                    (computerChoice = "scissors");
+                    return(computerChoice);
+            }
+    
+            function playerChoosesRock(){
+                playersChoice = "rock";
+                showResults()
+            }
+    
+            function playerChoosesPaper(){
+                playersChoice = "paper";
+                showResults()
+            }
+    
+            function playerChoosesScissors(){
+                playersChoice = "scissors";
+                showResults()
+            }
+            
+            // shows the results and winners after 5 round wins shows final winner
+            function showResults(){
+                playersResult.textContent = (`Player picked: ${playersChoice}`);
+                computersResult.textContent = (`Computer picked: ${computerChoice}`);
+                playersResult.style.visibility = "visible";
+                computersResult.style.visibility = "visible";
+                getRoundWinner ()
+                roundResult.textContent = message;
+            }
+    
+            function getRoundWinner (){
+                if (computerChoice === "rock" && playersChoice === "rock" || computerChoice === "paper" && playersChoice === "paper" || computerChoice === "scissors" && playersChoice === "scissors"){
+                    message = "it is a draw";
+                } else if (computerChoice === "rock" && playersChoice === "scissors" || computerChoice === "paper" && playersChoice === "rock" || computerChoice === "scissors" && playersChoice === "paper"){
+                    message = "Computer Wins round";
+                    computerPoints = (computerPoints + 1);
+                    computersScore.textContent = computerPoints;                    
+                } else if (computerChoice === "rock" && playersChoice === "paper" || computerChoice === "paper" && playersChoice === "scissors" || computerChoice === "scissors" && playersChoice === "rock"){
+                    message = "Player Wins round";
+                    playerPoints = (playerPoints + 1);
+                    playersScore.textContent = playerPoints;
+                }
+                if (computerPoints === 2){
+                    getComputerWinsMessage();
+                    yesOrNoDiv.style.visibility = "visible";
+                    playAgainButton.style.visibility = "visible";
+                    reset();
+                    //playAgainButton.addEventListener("click", function(){
+                      //  if (i === 0){
+                        //    reset();
+                          //  game()
+                }//})  
+                if (playerPoints === 2){
+                    getPlayerWinsMessage();
+                    
+                    playAgainButton.style.visibility = "visible";
+                    reset();
+                    //playAgainButton.addEventListener("click", function(){
+                        //if (i === 0){
+                            //reset();
+                            //game();
+                }//});
+                    
+    
+            function getComputerWinsMessage(){
+                
+                finalMessage.textContent = ("Computer Wins");
+                
+            }
+
+            function getPlayerWinsMessage(){
+                finalMessage.textContent = ("Player Wins");
+            }
+            
+            //after someone wins or loses it hides the gameboard and player has to refresh to play again
+            function reset(){
+                block.style.visibility = "visible";
+                buttons3Div.style.visibility = "hidden";
+                scoreBoardDiv.style.visibility = "hidden";
+                playerPoints = 0;
+                computerPoints = 0;
+                playersScore.textContent = playerPoints;
+                computersScore.textContent = computerPoints;
+            }
+            }
+    }
+    </script>
+
+</body>
+</html>
